@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, $rootScope, $window, $location, $state) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -19,6 +19,31 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     if (window.StatusBar) {
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
+    }
+  });
+
+  $rootScope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams) {
+
+    console.log($location.path());
+    
+    console.log(e);
+    console.log(toState);
+    console.log(toParams);
+    console.log(fromState);
+    console.log(fromParams);
+
+    if (toState.name == 'tab.login') {
+      return;
+    }
+
+    // check for access token
+    if (!$window.localStorage['email'] && toState.name != 'tab.login') {
+
+      // no access token! redirect to login page
+      // $location.path('/login');
+      e.preventDefault();
+      $state.transitionTo("tab.login", null, {notify:false});
+      $state.go('tab.login');
     }
   });
 })
@@ -38,8 +63,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     templateUrl: 'templates/tabs.html'
   })
 
-  // Each tab has its own nav history stack:
+  .state('tab.login', {
+    url: '/login',
+    views: {
+      'tab-account': {
+        templateUrl: 'templates/login.html',
+        controller: 'LoginCtrl'
+      }
+    }
+  })
 
+  // Each tab has its own nav history stack:
   .state('tab.cars', {
     url: '/cars',
     views: {
@@ -49,6 +83,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       }
     }
   })
+
   .state('tab.car-detail', {
     url: '/cars/:carId',
     views: {
@@ -90,5 +125,4 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/tab/cars');
-
 });
