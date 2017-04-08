@@ -15,7 +15,6 @@ angular.module('starter.controllers', [])
       console.log('we logged in successfully');
       //alert('we logged in successfully');
 
-      $window.localStorage['userId'] = $scope.user._id;
       $window.localStorage['email'] = $scope.user.email;
       $window.localStorage['token'] = data.data.jwt;
 
@@ -42,6 +41,20 @@ angular.module('starter.controllers', [])
     //alert('we got cars successfully');
 
     $scope.cars = data.data;
+
+    // iterate through each car object to get more detailed data (activites)
+    $scope.cars.forEach(function(car) {
+      Cars.get($scope.token, car._id)
+        .then(function(data){
+          console.log('got data for the car');
+          console.log(data);
+
+          car.activities = [];
+          car.activities = data.data.filteredActivities;
+          console.log(car.activities);
+        });
+    });
+
   })
   .catch(function(err) {
     alert('err');
