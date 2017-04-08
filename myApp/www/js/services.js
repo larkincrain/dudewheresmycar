@@ -56,6 +56,20 @@ angular.module('starter.services', [])
           profile_picture : profile_picture
         }
       });
+    },
+
+    signUp : function(email, password) {
+      return $http({
+          url: baseUrl + '/api/users',
+          method: 'POST',
+          data: {
+            email : email,
+            password : password,
+            name : '',
+            admin : false,
+            profile_picture : ''
+          }
+      });
     }
 
   };
