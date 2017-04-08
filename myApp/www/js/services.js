@@ -9,7 +9,7 @@ angular.module('starter.services', [])
   var baseUrl = 'http://128.199.81.211:1235';
 
   return {
-    all: function(token) {
+    all : function(token) {
 
       console.log('calling all cars!');
       //alert('calling all cars!');
@@ -20,7 +20,7 @@ angular.module('starter.services', [])
       });
     },
 
-    login: function(email, password) {
+    login : function(email, password) {
       return $http({
           url: baseUrl + '/api/authenticate',
           method: 'POST',
@@ -28,6 +28,33 @@ angular.module('starter.services', [])
             email : email,
             password : password
           }
+      });
+    },
+
+    get : function(token, email) {
+      return $http({
+          url: baseUrl + '/api/users/email/' + email + '?token=' + token,
+          method: 'GET',
+
+      });
+    },
+
+    update : function(
+      token,
+      email,
+      name,
+      phonenumber,
+      profile_picture) {
+      return $http({
+        url: baseUrl + '/api/users/update',
+        method: 'POST',
+        data: {
+          token : token,
+          email : email,
+          name : name,
+          phonenumber : phonenumber,
+          profile_picture : profile_picture
+        }
       });
     }
 

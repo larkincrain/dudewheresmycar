@@ -155,8 +155,27 @@ angular.module('starter.controllers', [])
   $scope.chat = Chats.get($stateParams.chatId);
 })
 
-.controller('AccountCtrl', function($scope) {
-  $scope.settings = {
-    enableFriends: true
-  };
+.controller('AccountCtrl', function($scope, $window, Users) {
+  
+  $scope.user = {};
+  $scope.email = $window.localStorage['email'];
+  $scope.token = $window.localStorage['token'];
+
+  // let's get the user from their email
+  Users.get($scope.token, $scope.email)
+    .then(function(data) {
+      $scope.user = data.data[0];
+    });
+
+    $scope.save = function() {
+      Users.update(
+        $scope.token,
+        $scope.email,
+        $scope.user.name,
+        $scope.user.phonenumber,
+        $scope.user.profile_picture)
+        .then(function(data){
+          console.log(data);
+        })
+    }
 });
