@@ -104,29 +104,25 @@ angular.module('starter.controllers', [])
     alert(JSON.stringify(err));
   });
 
-  $scope.book = function() {
-    //create a new booking
-    Activities.create(
-      token,
-      email,
-      carId,
-      $scope.newActivity.checkOutTime,
-      $scope.newActivity.checkInTimeExpected,
-      $scope.newActivity.message
-    ).then(function(data) {
+  $scope.checkOut = function() {
+    //create a new activity
+    Activities.create(token, email, carId, $scope.newActivity.checkOutTime, 
+      $scope.newActivity.checkInTimeExpected, $scope.newActivity.message)
+    .then(function(data) {
       
-      console.log('saved activity');
-      alert('Booking saved successfully.');
+      //TODO 'Car checked out successfully for MMM d, y h:mm a'
+      console.log('Car checked out successfully.');
+      alert('Car checked out successfully.');
 
-      //refresh the new booking
+      //refresh the new activity
       $scope.newActivity.checkOutTime = null;
       $scope.newActivity.checkInTimeExpected = null;
       $scope.newActivity.message = "";
 
-      //refresh the list of bookings
-      Cars.get($scope.token, carId).then(function(data) {
-        console.log('we got the car successfully');
-
+      //refresh the list of activities
+      Cars.get($scope.token, carId)
+      .then(function(data) {
+        console.log('we got the car + activities successfully');
         $scope.car = data.data.car;
         $scope.activities = data.data.filteredActivities;
       })
@@ -135,11 +131,76 @@ angular.module('starter.controllers', [])
         alert(JSON.stringify(err));
       });
 
-    }).catch(function(err){
+    })
+    .catch(function(err){
       console.log('got an error');
       console.log(err);
     });
   }
+
+  $scope.checkIn = function(activity) {
+
+    var activityId = activity._id;
+    var checkInTime = new Date().getTime();
+
+    //update the activity
+    Activities.update(token, email, activityId, checkInTime)
+    .then(function(data) {
+      
+      //TODO 'Car checked in successfully at MMM d, y h:mm a'
+      console.log('Car checked in successfully.');
+      alert('Car checked in successfully.');
+
+      //refresh the list of activities
+      Cars.get($scope.token, carId)
+      .then(function(data) {
+        console.log('we got the car + activities successfully');
+        $scope.car = data.data.car;
+        $scope.activities = data.data.filteredActivities;
+      })
+      .catch(function(err) {
+        alert('err');
+        alert(JSON.stringify(err));
+      });
+
+    })
+    .catch(function(err){
+      console.log('got an error');
+      console.log(err);
+    });
+  }
+
+  $scope.cancel = function(activity) {
+    
+    var activityId = activity._id;
+
+    //delete the activity
+    Activities.delete(token, email, activityId, checkInTime)
+    .then(function(data) {
+      
+      //TODO 'Car checked in successfully at MMM d, y h:mm a'
+      console.log('Car checked in successfully.');
+      alert('Car checked in successfully.');
+
+      //refresh the list of activities
+      Cars.get($scope.token, carId)
+      .then(function(data) {
+        console.log('we got the car + activities successfully');
+        $scope.car = data.data.car;
+        $scope.activities = data.data.filteredActivities;
+      })
+      .catch(function(err) {
+        alert('err');
+        alert(JSON.stringify(err));
+      });
+
+    })
+    .catch(function(err){
+      console.log('got an error');
+      console.log(err);
+    });
+  }
+
 })
 
 .controller('ChatsCtrl', function($scope, Chats) {
