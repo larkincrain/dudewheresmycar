@@ -26,9 +26,9 @@ angular.module('starter.controllers', [])
     });
   }
 
-  // $scope.signUp = function() {
+  $scope.signUp = function() {
   //   // Users.
-  // }
+  }
 
 })
 
@@ -222,7 +222,7 @@ angular.module('starter.controllers', [])
   $scope.chat = Chats.get($stateParams.chatId);
 })
 
-.controller('AccountCtrl', function($scope, $window, Users) {
+.controller('AccountCtrl', function($scope, $window, $state, Users) {
   
   $scope.user = {};
   $scope.email = $window.localStorage['email'];
@@ -234,7 +234,7 @@ angular.module('starter.controllers', [])
       $scope.user = data.data[0];
     });
 
-    $scope.save = function() {
+  $scope.save = function() {
       Users.update(
         $scope.token,
         $scope.email,
@@ -245,5 +245,14 @@ angular.module('starter.controllers', [])
           console.log(data);
           alert('success!');
         })
-    }
+  }
+
+  $scope.logout = function() {
+    // delete the email and tokens from the local storage and then redirect to the login
+    $window.localStorage['email'] = null;
+    $window.localStorage['token'] = null;
+
+    $state.transitionTo("tab.login", null, {notify:false});
+    $state.go('tab.login');
+  }
 });
