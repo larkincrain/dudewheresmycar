@@ -176,6 +176,7 @@ angular.module('starter.controllers', [])
         $scope.user.profile_picture)
         .then(function(data){
           console.log(data);
+          alert('success!');
         })
     }
 });
