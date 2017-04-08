@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ion-datetime-picker'])
 
 .run(function($ionicPlatform, $rootScope, $window, $location, $state) {
   $ionicPlatform.ready(function() {
@@ -87,13 +87,13 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   .state('tab.car-detail', {
     url: '/cars/:carId',
     views: {
-      'tab-chats': {
+      'tab-cars': {
         templateUrl: 'templates/car-detail.html',
         controller: 'CarDetailCtrl'
       }
     }
   })
-
+  
   .state('tab.chats', {
       url: '/chats',
       views: {
