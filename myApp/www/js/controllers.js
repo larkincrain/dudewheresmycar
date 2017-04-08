@@ -35,6 +35,7 @@ angular.module('starter.controllers', [])
   //alert('were in the cars controller');
 
   $scope.cars = []; 
+  $scope.currentDate = new Date();
 
   Cars.all($scope.token).then(function(data) {
     console.log('we got cars successfully');
@@ -46,12 +47,17 @@ angular.module('starter.controllers', [])
     $scope.cars.forEach(function(car) {
       Cars.get($scope.token, car._id)
         .then(function(data){
-          console.log('got data for the car');
-          console.log(data);
 
           car.activities = [];
+          car.status = 'In';
           car.activities = data.data.filteredActivities;
-          console.log(car.activities);
+          
+          car.activities.forEach(function(activity) {
+            if (new Date(activity.check_out_time).getTime() <= $scope.currentDate.getTime() &&
+              new Date(activity.check_in_time_expected).getTime() >= $scope.currentDate.getTime())
+              car.status = 'Out';
+              // TODO if the car is leaving within 30 minutes then status should be "out soon! :-)"
+          });
         });
     });
 
