@@ -78,7 +78,30 @@ angular.module('starter.services', [])
           checkInTimeExpected : checkInTimeExpected,
           message : message
         }
-    });
-    }
+      });
+    },
+    update : function(token, email, activityId, checkInTime) {
+      return $http({
+        url : baseUrl + '/api/activities/update',
+        method : 'POST',
+        data : {
+          token : token,
+          email : email,
+          activityId : activityId,
+          checkInTime : checkInTime
+        }
+      });
+    },
+    delete : function(token, email, activityId) {
+      return $http({
+        url : baseUrl + '/api/activities/delete',
+        method : 'POST',
+        data : {
+          token : token,
+          email : email,
+          activityId : activityId
+        }
+      });
+    },
   };
 });
