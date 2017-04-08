@@ -1,9 +1,22 @@
 <ion-view view-title="Account">
   <ion-content>
-    <ion-list>
-    <ion-toggle  ng-model="settings.enableFriends">
-        Enable Friends
-    </ion-toggle>
-    </ion-list>
+
+  	<img ng-src="{{user.profile_picture}}" style="width: 100%">
+
+    <label class="item item-input">
+      <input type="text" ng-model="user.email" placeholder="email" readonly>
+    </label>
+
+    <label class="item item-input">
+      <input type="text" ng-model="user.name" placeholder="name">
+    </label>
+
+        <label class="item item-input">
+      <input type="text" ng-model="user.phonenumber" placeholder="phone number">
+    </label>
+
+    <label class="item item-input">
+      <button class="button button-block button-positive" ng-click="save();"> Save! </button>
+    </label>
   </ion-content>
 </ion-view>
