@@ -29,10 +29,9 @@ angular.module('starter.controllers', [])
   $scope.signUp = function() {
   //   // Users.
   }
-
 })
 
-.controller('CarsCtrl', function($scope, $window, Cars) {
+.controller('CarsCtrl', function($scope, $state, $window, Cars) {
   $scope.token = $window.localStorage['token'];
 
   console.log('were in the cars controller');
@@ -42,31 +41,43 @@ angular.module('starter.controllers', [])
   $scope.currentDate = new Date();
 
   Cars.all($scope.token).then(function(data) {
-    console.log('we got cars successfully');
-    //alert('we got cars successfully');
 
-    $scope.cars = data.data;
+    if(data.data.success == false) {
 
-    // iterate through each car object to get more detailed data (activites)
-    $scope.cars.forEach(function(car) {
-      Cars.get($scope.token, car._id)
-        .then(function(data){
+      console.log('we got cars unsucessfully.');
 
-          car.activities = [];
-          car.status = 'In';
-          car.activities = data.data.filteredActivities;
-          
-          car.activities.forEach(function(activity) {
-            if (new Date(activity.check_out_time).getTime() <= $scope.currentDate.getTime() &&
-              new Date(activity.check_in_time_expected).getTime() >= $scope.currentDate.getTime())
-              car.status = 'Out';
-              // TODO if the car is leaving within 30 minutes then status should be "out soon! :-)"
+      if(data.data.message.indexOf('token') > -1) {
+
+        //we need to log in again
+        $state.transitionTo("tab.login", null, {notify:false});
+        $state.go('tab.login');
+      }
+    } else {
+      //alert('we got cars successfully');
+
+      $scope.cars = data.data;
+
+      // iterate through each car object to get more detailed data (activites)
+      $scope.cars.forEach(function(car) {
+        Cars.get($scope.token, car._id)
+          .then(function(data){
+
+            car.activities = [];
+            car.status = 'In';
+            car.activities = data.data.filteredActivities;
+            
+            car.activities.forEach(function(activity) {
+              if (new Date(activity.check_out_time).getTime() <= $scope.currentDate.getTime() &&
+                new Date(activity.check_in_time_expected).getTime() >= $scope.currentDate.getTime())
+                car.status = 'Out';
+                // TODO if the car is leaving within 30 minutes then status should be "out soon! :-)"
+            });
+          }).catch(function(err){
+            alert('error getting cars');
+            alert(JSON.stringify(err));
           });
-        }).catch(function(err){
-          alert('error getting cars');
-          alert(JSON.stringify(err));
-        });
-    });
+      });
+    }
 
   })
   .catch(function(err) {
@@ -200,7 +211,6 @@ angular.module('starter.controllers', [])
       console.log(err);
     });
   }
-
 })
 
 .controller('ChatsCtrl', function($scope, Chats) {
@@ -231,7 +241,19 @@ angular.module('starter.controllers', [])
   // let's get the user from their email
   Users.get($scope.token, $scope.email)
     .then(function(data) {
-      $scope.user = data.data[0];
+      if(data.data.success == false) {
+
+        console.log('we got the user unsucessfully.');
+
+        if(data.data.message.indexOf('token') > -1) {
+
+          //we need to log in again
+          $state.transitionTo("tab.login", null, {notify:false});
+          $state.go('tab.login');
+        }
+      } else {
+        $scope.user = data.data[0];
+      }
     });
 
   $scope.save = function() {

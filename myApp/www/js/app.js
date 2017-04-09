@@ -37,7 +37,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     }
 
     // check for access token
-    if (!$window.localStorage['email'] && toState.name != 'tab.login') {
+    if (!$window.localStorage['token'] && toState.name != 'tab.login') {
 
       // no access token! redirect to login page
       // $location.path('/login');
@@ -93,7 +93,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       }
     }
   })
-  
+
   .state('tab.chats', {
       url: '/chats',
       views: {
