@@ -24,26 +24,21 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
   $rootScope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams) {
 
-    console.log($location.path());
-    
-    console.log(e);
-    console.log(toState);
-    console.log(toParams);
-    console.log(fromState);
-    console.log(fromParams);
-
-    if (toState.name == 'tab.login') {
-      return;
-    }
-
     // check for access token
-    if (!$window.localStorage['token'] && toState.name != 'tab.login') {
+    if ($window.localStorage['token'].toString() == 'null') {
+      if (toState.name != 'tab.login') {
+        //we need to redirect to the login page
 
-      // no access token! redirect to login page
-      // $location.path('/login');
-      e.preventDefault();
-      $state.transitionTo("tab.login", null, {notify:false});
-      $state.go('tab.login');
+        $state.transitionTo("tab.login", null, {notify:true});
+      }
+    } else {
+      console.log('we have a token!');
+      // we have a token
+      if (toState.name == 'tab.login') {
+        e.preventDefault();
+        console.log('were going to the account page');
+        $state.transitionTo("tab.account", null, { reload: true, notify : false });
+      }
     }
   });
 })
@@ -61,6 +56,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     url: '/tab',
     abstract: true,
     templateUrl: 'templates/tabs.html'
+  })
+
+  .state('tab.account', {
+    url: '/account',
+    views: {
+      'tab-account': {
+        templateUrl: 'templates/tab-account.html',
+        controller: 'AccountCtrl'
+      }
+    }
   })
 
   .state('tab.login', {
@@ -90,35 +95,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       'tab-cars': {
         templateUrl: 'templates/car-detail.html',
         controller: 'CarDetailCtrl'
-      }
-    }
-  })
-
-  .state('tab.chats', {
-      url: '/chats',
-      views: {
-        'tab-chats': {
-          templateUrl: 'templates/tab-chats.html',
-          controller: 'ChatsCtrl'
-        }
-      }
-    })
-    .state('tab.chat-detail', {
-      url: '/chats/:chatId',
-      views: {
-        'tab-chats': {
-          templateUrl: 'templates/chat-detail.html',
-          controller: 'ChatDetailCtrl'
-        }
-      }
-    })
-
-  .state('tab.account', {
-    url: '/account',
-    views: {
-      'tab-account': {
-        templateUrl: 'templates/tab-account.html',
-        controller: 'AccountCtrl'
       }
     }
   });

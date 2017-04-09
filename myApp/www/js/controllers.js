@@ -11,23 +11,48 @@ angular.module('starter.controllers', [])
   //alert('were in the login controller');
 
   $scope.login = function() {
-    Users.login($scope.user.email, $scope.user.password).then(function(data) {
-      console.log('we logged in successfully');
-      //alert('we logged in successfully');
+    Users.login($scope.user.email, $scope.user.password)
+      .then(function(data) {
+        if (data.data.success) {
+          console.log('we logged in successfully');
+          //alert('we logged in successfully');
 
-      $window.localStorage['email'] = $scope.user.email;
-      $window.localStorage['token'] = data.data.jwt;
+          console.log('data');
+          console.log(data);
 
-      $location.path('/cars');
-    })
-    .catch(function(err) {
-      alert('err');
-      alert(JSON.stringify(err));
-    });
+          $window.localStorage['email'] = $scope.user.email;
+          $window.localStorage['token'] = data.data.jwt;
+
+          console.log('token: ');
+          console.log($window.localStorage['token']);
+
+          $location.path('/cars');
+        } else {
+          console.log('wroooooong!');
+          alert('wrong');
+        }
+      })
+      .catch(function(err) {
+        alert('err');
+        alert(JSON.stringify(err));
+      });
   }
 
   $scope.signUp = function() {
-  //   // Users.
+    Users.signUp($scope.user.email, $scope.user.password)
+      .then(function(data) {
+        if(data.data.success == true) {
+          alert('user created successfully');
+
+          $window.localStorage['email'] = $scope.user.email;
+          $window.localStorage['token'] = data.data.jwt;
+
+          $location.path('/cars');
+        } else {
+          alert('error');
+          console.log(data);
+        }
+      })
   }
 })
 
@@ -186,8 +211,8 @@ angular.module('starter.controllers', [])
     var activityId = activity._id;
 
     //delete the activity
-    Activities.delete(token, email, activityId, checkInTime)
-    .then(function(data) {
+    Activities.delete(token, email, activityId)
+      .then(function(data) {
       
       //TODO 'Car checked in successfully at MMM d, y h:mm a'
       console.log('Car checked in successfully.');
@@ -211,25 +236,6 @@ angular.module('starter.controllers', [])
       console.log(err);
     });
   }
-})
-
-.controller('ChatsCtrl', function($scope, Chats) {
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
-
-  $scope.chats = Chats.all();
-  $scope.remove = function(chat) {
-    Chats.remove(chat);
-  };
-})
-
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-  $scope.chat = Chats.get($stateParams.chatId);
 })
 
 .controller('AccountCtrl', function($scope, $window, $state, Users) {

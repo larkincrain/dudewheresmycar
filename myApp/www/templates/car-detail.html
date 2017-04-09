@@ -13,70 +13,87 @@
     <p>{{car.description}}</p>
     <p>Seats: {{car.seats}} </p>
 
-    <!-- existing car activities -->
     <ul class="list">
-      <li class="item item-remove-animate item-avatar item-icon-right" 
-          ng-repeat="activity in activities" type="item-text-wrap" href="#">
-        <div class="card">
-          <div class="item item-text-wrap">
-            <!-- TODO user's profile picture -->    
-            <div class="row">
-              <div class="col">
-                <!-- check out time -->
-                <p>{{ activity.check_out_time | date: "MMM d, y h:mm a" }}</p>
-                <!-- expected check in time -->
-                <p>{{ activity.check_in_time_expected | date: "MMM d, y h:mm a" }}</p>
-                <!-- message -->
-                <p>{{ activity.message }}</p>
-              </div>
-              <!-- TODO only allow the user to check in or cancel their activities -->
-              <div class="col">
-                <!-- check in! -->
-                <button class="button button-block button-royal" ng-click="checkIn(activity);">
-                  CheckIn
-                </button>
-                <!-- cancel -->
-                <button class="button button-block button-assertive" ng-click="cancel(activity);">
-                  Cancel
-                </button>
-              </div>
-            </div> 
-          </div>
-        </div>      
-      </li>
-    </ul>
+      
+      <!-- TODO most next car activity -->
+      <!-- <li></li> -->
 
-    <!-- new car activity -->
-    <ul class="list">
-      <li class="item item-remove-animate item-avatar item-icon-right" 
-          type="item-text-wrap" href="#">
-        <div class="card">
-          <div class="item item-text-wrap">
-            <!-- TODO user's profile picture -->    
-            <div class="row">
-              <!-- check out time -->
-              <div class="col .col-50">
-                <div class="item" ion-datetime-picker ng-model="newActivity.checkOutTime"
-                placeholder="CheckOut Time">
-                  {{newActivity.checkOutTime | date: "MMM d, y h:mm a"}}
-                </div>
-              </div>
-              <!-- expected check in time -->
-              <div class="col .col-50">
-                <div class="item" ion-datetime-picker ng-model="newActivity.checkInTimeExpected"
-                placeholder="Expected CheckIn Time">
-                  {{newActivity.checkInTimeExpected | date: "MMM d, y h:mm a"}}
-                </div>
-              </div>
+      <!-- existing car activities -->
+      <li class="item" ng-repeat="activity in activities" type="item-text-wrap">
+        <div class="row">
+          <div class="col col-25">
+                <!-- TODO user's profile picture -->
+          </div>
+          <div class="col col-75">
+            <!-- message -->
+            <p class="item-text-wrap">{{ activity.message }}</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <!-- check out time -->
+            <span class="ion-calendar positive"></span>
+            <strong> {{ activity.check_out_time | date: "MMM d, h:mm a" }}</strong>
+          </div>
+          <div class="col">
+            <!-- check in time, or if not checked in yet, expected check in time -->
+            <span class="ion-calendar royal"></span> 
+            <strong>{{ (activity.check_in_time || activity.check_in_time_expected) | date: "MMM d, h:mm a" }}</strong>
+          </div>
+        </div>
+        <div ng-if="activity.check_in_time == null" class="row">
+          <div class="col">
+            <!-- cancel -->
+            <button class="button button-block button-assertive" ng-click="cancel(activity);">
+              <span class="ion-heart-broken"> Cancel</span>
+            </button>
+          </div>
+          <div class="col">
+            <!-- check in! -->
+            <button class="button button-block button-royal" ng-click="checkIn(activity);">
+              <span class="ion-calendar"> CheckIn</span>
+            </button>
+          </div>
+        </div>
+      </li>
+      <!-- new car activity -->
+      <li class="item" type="item-text-wrap">
+        <!-- TODO user's profile picture -->
+        <div class="row">
+          <!-- expected check in time -->
+          <div class="col">
+            <div class="item item-icon-left" ion-datetime-picker ng-model="newActivity.checkOutTime">
+              <i class="icon ion-calendar positive"></i>
+              <span>CheckOut Time:</span><br/>
+              <strong>{{newActivity.checkOutTime | date: "MMM d, y h:mm a"}}</strong>
             </div>
-            <div class="row">
-              <!-- message -->
-              <input type="text" ng-model="newActivity.message" placeholder="Leave a message">
-              <!-- check out! -->
-              <button class="button button-block button-positive" ng-click="checkOut();">
-                CheckOut
-              </button>
+          </div>
+        </div>
+        <div class="row">
+          <!-- expected check in time -->
+          <div class="col">
+            <div class="item item-icon-left" ion-datetime-picker ng-model="newActivity.checkInTimeExpected">
+              <i class="icon ion-calendar royal"></i>
+              <span>Expected CheckIn Time:</span><br/>
+              <strong>{{newActivity.checkInTimeExpected | date: "MMM d, y h:mm a"}}</strong>
             </div>
+          </div>
+        </div>
+        <div class="row">
+          <!-- message -->
+          <div class="col">
+            <label class="item item-input">
+              <i class="icon ion-chatbox placeholder-icon"></i>
+              <input type="text" ng-model="newActivity.message" placeholder="Where ya goin?">
+            </label>
+          </div>
+        </div>
+        <div class="row">
+          <!-- check out! -->
+          <div class="col">
+            <button class="button button-block button-positive" ng-click="checkOut();">
+              <span class="ion-play"> CheckOut</span>
+            </button>
           </div>
         </div>
       </li>
