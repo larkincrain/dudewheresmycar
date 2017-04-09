@@ -14,34 +14,73 @@
     <p>Seats: {{car.seats}} </p>
 
     <!-- existing car activities -->
-    <ion-list>
-      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="activity in activities" type="item-text-wrap" href="#">        
-        <!-- TODO user's profile picture <img ng-src="{{car.profile_picture}}"> -->    
-        <p>{{ activity.check_out_time | date: "MMM d, y h:mm a" }}</p>
-        <p>{{ activity.check_in_time_expected | date: "MMM d, y h:mm a" }}</p>
-        <p>{{ activity.message }}</p>
-        <button class="button button-block button-royal" ng-click="checkIn(activity);">CheckIn</button>
-        <button class="button button-block button-assertive" ng-click="cancel(activity);">Cancel</button>
-      </ion-item>
-    </ion-list>
+    <ul class="list">
+      <li class="item item-remove-animate item-avatar item-icon-right" 
+          ng-repeat="activity in activities" type="item-text-wrap" href="#">
+        <div class="card">
+          <div class="item item-text-wrap">
+            <!-- TODO user's profile picture -->    
+            <div class="row">
+              <div class="col">
+                <!-- check out time -->
+                <p>{{ activity.check_out_time | date: "MMM d, y h:mm a" }}</p>
+                <!-- expected check in time -->
+                <p>{{ activity.check_in_time_expected | date: "MMM d, y h:mm a" }}</p>
+                <!-- message -->
+                <p>{{ activity.message }}</p>
+              </div>
+              <!-- TODO only allow the user to check in or cancel their activities -->
+              <div class="col">
+                <!-- check in! -->
+                <button class="button button-block button-royal" ng-click="checkIn(activity);">
+                  CheckIn
+                </button>
+                <!-- cancel -->
+                <button class="button button-block button-assertive" ng-click="cancel(activity);">
+                  Cancel
+                </button>
+              </div>
+            </div> 
+          </div>
+        </div>      
+      </li>
+    </ul>
 
     <!-- new car activity -->
-    <ion-list>
-      <div class="item" ion-datetime-picker ng-model="newActivity.checkOutTime">
-        {{newActivity.checkOutTime | date: "MMM d, y h:mm a"}}
-      </div>
-    </ion-list>
-    <ion-list>
-      <div class="item" ion-datetime-picker ng-model="newActivity.checkInTimeExpected">
-        {{newActivity.checkInTimeExpected | date: "MMM d, y h:mm a"}}
-      </div>
-    </ion-list>
-    <label class="item item-input">
-      <input type="text" ng-model="newActivity.message" placeholder="Leave a message">
-    </label>
-    <label class="item item-input">
-      <button class="button button-block button-positive" ng-click="checkOut();">CheckOut</button>
-    </label>
+    <ul class="list">
+      <li class="item item-remove-animate item-avatar item-icon-right" 
+          type="item-text-wrap" href="#">
+        <div class="card">
+          <div class="item item-text-wrap">
+            <!-- TODO user's profile picture -->    
+            <div class="row">
+              <!-- check out time -->
+              <div class="col .col-50">
+                <div class="item" ion-datetime-picker ng-model="newActivity.checkOutTime"
+                placeholder="CheckOut Time">
+                  {{newActivity.checkOutTime | date: "MMM d, y h:mm a"}}
+                </div>
+              </div>
+              <!-- expected check in time -->
+              <div class="col .col-50">
+                <div class="item" ion-datetime-picker ng-model="newActivity.checkInTimeExpected"
+                placeholder="Expected CheckIn Time">
+                  {{newActivity.checkInTimeExpected | date: "MMM d, y h:mm a"}}
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <!-- message -->
+              <input type="text" ng-model="newActivity.message" placeholder="Leave a message">
+              <!-- check out! -->
+              <button class="button button-block button-positive" ng-click="checkOut();">
+                CheckOut
+              </button>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
 
   </ion-content>
 </ion-view>
