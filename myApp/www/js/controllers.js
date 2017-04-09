@@ -25,11 +25,15 @@ angular.module('starter.controllers', [])
       alert(JSON.stringify(err));
     });
   }
+
+  $scope.signUp = function() {
+  //   // Users.
+  }
+
 })
 
-.controller('CarsCtrl', function($scope, Cars) {
-  $scope.token = 
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyIkX18iOnsic3RyaWN0TW9kZSI6dHJ1ZSwiZ2V0dGVycyI6e30sIndhc1BvcHVsYXRlZCI6ZmFsc2UsImFjdGl2ZVBhdGhzIjp7InBhdGhzIjp7ImVtYWlsIjoiaW5pdCIsInBhc3N3b3JkIjoiaW5pdCIsImRhdGVfam9pbmVkIjoiaW5pdCIsInByb2ZpbGVfcGljdHVyZSI6ImRlZmF1bHQiLCJhZG1pbiI6ImluaXQiLCJfX3YiOiJpbml0IiwibmFtZSI6ImluaXQiLCJfaWQiOiJpbml0In0sInN0YXRlcyI6eyJpZ25vcmUiOnt9LCJkZWZhdWx0Ijp7InByb2ZpbGVfcGljdHVyZSI6dHJ1ZX0sImluaXQiOnsiX192Ijp0cnVlLCJuYW1lIjp0cnVlLCJlbWFpbCI6dHJ1ZSwicGFzc3dvcmQiOnRydWUsImRhdGVfam9pbmVkIjp0cnVlLCJhZG1pbiI6dHJ1ZSwiX2lkIjp0cnVlfSwibW9kaWZ5Ijp7fSwicmVxdWlyZSI6e319LCJzdGF0ZU5hbWVzIjpbInJlcXVpcmUiLCJtb2RpZnkiLCJpbml0IiwiZGVmYXVsdCIsImlnbm9yZSJdfX0sImlzTmV3IjpmYWxzZSwiX21heExpc3RlbmVycyI6MCwiX2RvYyI6eyJlbWFpbCI6InN1c2FuLmxpc3RlckBvbmVhY3JlZnVuZC5vcmciLCJwYXNzd29yZCI6IiQyYSQxMCRWVmcxeGRQRWJnSzUxTlVqSDBMOWtPL2VuTkdob2ZsOHVpSm96Vk1UZU1TUDVLNUc1V25iQyIsImRhdGVfam9pbmVkIjoiMjAxNy0wNC0wMlQxMjo1NTowMi40NDJaIiwicHJvZmlsZV9waWN0dXJlIjoiIiwiYWRtaW4iOnRydWUsIl9fdiI6MCwibmFtZSI6InN1enp5LXEiLCJfaWQiOiI1OGUwZjRhNmU4YzMzOGE5ZWUwNmMyMTYifSwiX3ByZXMiOnsic2F2ZSI6W251bGwsbnVsbCxudWxsXX0sIl9wb3N0cyI6eyJzYXZlIjpbXX0sImlhdCI6MTQ5MTU3NzAyNiwiZXhwIjoxNDkxNjYzNDI2fQ.LY5r0acXJR7-isDM5Rm9E7jiIm_qtfMg9gOlg492oac';
+.controller('CarsCtrl', function($scope, $window, Cars) {
+  $scope.token = $window.localStorage['token'];
 
   console.log('were in the cars controller');
   //alert('were in the cars controller');
@@ -58,19 +62,21 @@ angular.module('starter.controllers', [])
               car.status = 'Out';
               // TODO if the car is leaving within 30 minutes then status should be "out soon! :-)"
           });
+        }).catch(function(err){
+          alert('error getting cars');
+          alert(JSON.stringify(err));
         });
     });
 
   })
   .catch(function(err) {
-    alert('err');
-    alert(JSON.stringify(err));
+    // alert('err');
+    // alert(JSON.stringify(err));
   });
 })
 
 .controller('CarDetailCtrl', function($scope, $stateParams, $state, $window, Cars, Activities) {
-  $scope.token = 
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyIkX18iOnsic3RyaWN0TW9kZSI6dHJ1ZSwiZ2V0dGVycyI6e30sIndhc1BvcHVsYXRlZCI6ZmFsc2UsImFjdGl2ZVBhdGhzIjp7InBhdGhzIjp7ImVtYWlsIjoiaW5pdCIsInBhc3N3b3JkIjoiaW5pdCIsImRhdGVfam9pbmVkIjoiaW5pdCIsInByb2ZpbGVfcGljdHVyZSI6ImRlZmF1bHQiLCJhZG1pbiI6ImluaXQiLCJfX3YiOiJpbml0IiwibmFtZSI6ImluaXQiLCJfaWQiOiJpbml0In0sInN0YXRlcyI6eyJpZ25vcmUiOnt9LCJkZWZhdWx0Ijp7InByb2ZpbGVfcGljdHVyZSI6dHJ1ZX0sImluaXQiOnsiX192Ijp0cnVlLCJuYW1lIjp0cnVlLCJlbWFpbCI6dHJ1ZSwicGFzc3dvcmQiOnRydWUsImRhdGVfam9pbmVkIjp0cnVlLCJhZG1pbiI6dHJ1ZSwiX2lkIjp0cnVlfSwibW9kaWZ5Ijp7fSwicmVxdWlyZSI6e319LCJzdGF0ZU5hbWVzIjpbInJlcXVpcmUiLCJtb2RpZnkiLCJpbml0IiwiZGVmYXVsdCIsImlnbm9yZSJdfX0sImlzTmV3IjpmYWxzZSwiX21heExpc3RlbmVycyI6MCwiX2RvYyI6eyJlbWFpbCI6InN1c2FuLmxpc3RlckBvbmVhY3JlZnVuZC5vcmciLCJwYXNzd29yZCI6IiQyYSQxMCRWVmcxeGRQRWJnSzUxTlVqSDBMOWtPL2VuTkdob2ZsOHVpSm96Vk1UZU1TUDVLNUc1V25iQyIsImRhdGVfam9pbmVkIjoiMjAxNy0wNC0wMlQxMjo1NTowMi40NDJaIiwicHJvZmlsZV9waWN0dXJlIjoiIiwiYWRtaW4iOnRydWUsIl9fdiI6MCwibmFtZSI6InN1enp5LXEiLCJfaWQiOiI1OGUwZjRhNmU4YzMzOGE5ZWUwNmMyMTYifSwiX3ByZXMiOnsic2F2ZSI6W251bGwsbnVsbCxudWxsXX0sIl9wb3N0cyI6eyJzYXZlIjpbXX0sImlhdCI6MTQ5MTU3NzAyNiwiZXhwIjoxNDkxNjYzNDI2fQ.LY5r0acXJR7-isDM5Rm9E7jiIm_qtfMg9gOlg492oac';
+  $scope.token = $window.localStorage['token'];
 
   console.log('were in the car detail controller');
   //alert('were in the car detail controller');
@@ -216,7 +222,7 @@ angular.module('starter.controllers', [])
   $scope.chat = Chats.get($stateParams.chatId);
 })
 
-.controller('AccountCtrl', function($scope, $window, Users) {
+.controller('AccountCtrl', function($scope, $window, $state, Users) {
   
   $scope.user = {};
   $scope.email = $window.localStorage['email'];
@@ -228,7 +234,7 @@ angular.module('starter.controllers', [])
       $scope.user = data.data[0];
     });
 
-    $scope.save = function() {
+  $scope.save = function() {
       Users.update(
         $scope.token,
         $scope.email,
@@ -239,5 +245,14 @@ angular.module('starter.controllers', [])
           console.log(data);
           alert('success!');
         })
-    }
+  }
+
+  $scope.logout = function() {
+    // delete the email and tokens from the local storage and then redirect to the login
+    $window.localStorage['email'] = null;
+    $window.localStorage['token'] = null;
+
+    $state.transitionTo("tab.login", null, {notify:false});
+    $state.go('tab.login');
+  }
 });
