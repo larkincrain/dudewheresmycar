@@ -6,7 +6,9 @@ angular.module('starter.services', [])
   // Some fake testing data
   var cars = [];
 
-  var baseUrl = 'http://128.199.81.211:1235';
+  var liveBaseUrl = 'http://128.199.81.211:1235';
+  var localBaseUrl = 'http://localhost:1235';
+  var baseUrl = liveBaseUrl;
 
   return {
     all : function(token) {
