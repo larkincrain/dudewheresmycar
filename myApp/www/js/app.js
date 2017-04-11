@@ -25,21 +25,14 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   $rootScope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams) {
 
     // check for access token
-    if ($window.localStorage['token'].toString() == 'null') {
+    var token = $window.localStorage['token'];
+    if (token == null ||
+      token.toString() == 'null') {
       if (toState.name != 'tab.login') {
         //we need to redirect to the login page
-
         $state.transitionTo("tab.login", null, {notify:true});
       }
-    } else {
-      console.log('we have a token!');
-      // we have a token
-      if (toState.name == 'tab.login') {
-        e.preventDefault();
-        console.log('were going to the account page');
-        $state.transitionTo("tab.account", null, { reload: true, notify : false });
-      }
-    }
+    } 
   });
 })
 
@@ -58,20 +51,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     templateUrl: 'templates/tabs.html'
   })
 
-  .state('tab.account', {
-    url: '/account',
-    views: {
-      'tab-account': {
-        templateUrl: 'templates/tab-account.html',
-        controller: 'AccountCtrl'
-      }
-    }
-  })
-
   .state('tab.login', {
     url: '/login',
     views: {
-      'tab-account': {
+      'tab-login': {
         templateUrl: 'templates/login.html',
         controller: 'LoginCtrl'
       }

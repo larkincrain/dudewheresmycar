@@ -14,17 +14,15 @@
     <p>Seats: {{car.seats}} </p>
 
     <ul class="list">
-      
-      <!-- TODO most next car activity -->
-      <!-- <li></li> -->
 
       <!-- existing car activities -->
       <li class="item" ng-repeat="activity in activities" type="item-text-wrap">
         <div class="row">
-          <div class="col col-25">
-                <!-- TODO user's profile picture -->
-          </div>
-          <div class="col col-75">
+          <!-- <div class="col col-25">
+                TODO user's profile picture
+          </div> -->          
+          <!-- <div class="col col-75"> -->
+          <div class="col">          
             <!-- message -->
             <p class="item-text-wrap">{{ activity.message }}</p>
           </div>
@@ -33,12 +31,12 @@
           <div class="col">
             <!-- check out time -->
             <span class="ion-calendar positive"></span>
-            <strong> {{ activity.check_out_time | date: "MMM d, h:mm a" }}</strong>
+            <span> {{ activity.check_out_time | date: "MMM d, h:mm a" }}</span>
           </div>
           <div class="col">
             <!-- check in time, or if not checked in yet, expected check in time -->
             <span class="ion-calendar royal"></span> 
-            <strong>{{ (activity.check_in_time || activity.check_in_time_expected) | date: "MMM d, h:mm a" }}</strong>
+            <span>{{ (activity.check_in_time || activity.check_in_time_expected) | date: "MMM d, h:mm a" }}</span>
           </div>
         </div>
         <div ng-if="activity.check_in_time == null" class="row">
@@ -58,7 +56,6 @@
       </li>
       <!-- new car activity -->
       <li class="item" type="item-text-wrap">
-        <!-- TODO user's profile picture -->
         <div class="row">
           <!-- expected check in time -->
           <div class="col">
